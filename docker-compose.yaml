@@ -13,7 +13,8 @@ services:
       - ./datos:/opt/datos
       - ./drivers/mysql-connector-j-9.2.0.jar:/opt/mysql-connector-j-9.2.0.jar
       - ./drivers/postgresql-42.7.5.jar:/opt/postgresql-42.7.5.jar
-  
+      - ./nifi_data:/opt/nifi/nifi-current/data
+
   bbdd_sql:
     image: bigdatawirtz/mysqlemployees
     container_name: db_mysql
@@ -21,7 +22,9 @@ services:
       - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: 1Password-Chungo
-  
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
   bbdd_postgres:
     image: postgres
     container_name: db_postgres
@@ -29,6 +32,8 @@ services:
       - '5432:5432'
     environment:
       POSTGRES_PASSWORD: 1Password-Chungo
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
   
   bbdd_mongo:
     image: mongo
@@ -38,3 +43,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 1Password-Chungo
+    volumes:
+      - ./ mongo_data:/data/db
+volumes:
+  nifi_data:
+  mongo_data:
+  mysql_data:
+  postgres_data:
