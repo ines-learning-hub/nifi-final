@@ -1,0 +1,11 @@
+services: 
+  meunifi:
+    image: apache/nifi:latest
+    container_name: nifiproject
+    ports:
+      - '9443:8443'
+    environment:
+      SINGLE_USER_CREDENTIALS_USERNAME: admin
+      SINGLE_USER_CREDENTIALS_PASSWORD: 1Password-Chungo
+    volumes: 
+      - ../datos:/opt/datos
