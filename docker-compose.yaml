@@ -1,11 +1,40 @@
+version: '3.8'
+
 services: 
-  meunifi:
+  nifi:
     image: apache/nifi:latest
     container_name: nifiproject
     ports:
-      - '9443:8443'
+      - '10443:8443'
     environment:
       SINGLE_USER_CREDENTIALS_USERNAME: admin
       SINGLE_USER_CREDENTIALS_PASSWORD: 1Password-Chungo
     volumes: 
-      - ../datos:/opt/datos
+      - ./datos:/opt/datos
+      - ./drivers/mysql-connector-j-9.2.0.jar:/opt/mysql-connector-j-9.2.0.jar
+      - ./drivers/postgresql-42.7.5.jar:/opt/postgresql-42.7.5.jar
+  
+  bbdd_sql:
+    image: bigdatawirtz/mysqlemployees
+    container_name: db_mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 1Password-Chungo
+  
+  bbdd_postgres:
+    image: postgres
+    container_name: db_postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 1Password-Chungo
+  
+  bbdd_mongo:
+    image: mongo
+    container_name: db_mongo
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1Password-Chungo
